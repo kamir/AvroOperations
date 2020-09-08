@@ -1,0 +1,116 @@
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home
+export CONFLUENT_HOME=/Users/mkampf/bin/confluent-5.4.0
+
+confluent local status
+
+confluent local destroy
+
+confluent local start
+
+// https://docs.confluent.io/current/kafka-rest/quickstart.html
+
+* show sequence of calls to REST Proxy
+
+curl http://localhost:8082/topics
+curl http://localhost:8082/topics/students
+curl http://localhost:8082/topics/students/partitions
+
+
+// binary
+curl -X POST -H "Content-Type: application/vnd.kafka.binary.v2+json" \
+      -H "Accept: application/vnd.kafka.v2+json" \
+      --data '{"records":[{"value":"S2Fma2E=S2Fma2E="}]}' "http://localhost:8082/topics/binarytest_new"
+
+// https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html#confluent-rest-proxy
+
+
+// DEMO: http://www.alternatestack.com/development/kafka-rest-proxy-publishing-avro-messages-to-kafka/
+
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+        -H "Accept: application/vnd.kafka.v2+json" \
+         --data '{ "key_schema": "{\"type\": \"int\"}", "value_schema": "{\"type\":\"record\",\"name\":\"Student\",\"fields\":[{\"name\":\"studentId\",\"type\":\"int\"},{\"name\":\"studentName\",\"type\":\"string\"},{\"name\":\"height\",\"type\":\"double\"}]}", "records": [{"key":1,"value":{"studentId":1,"studentName":"Alice A","height":1.74}}]}' \
+        "http://localhost:8082/topics/students_new"
+
+OK
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+        -H "Accept: application/vnd.kafka.v2+json" \
+         --data '{ "key_schema": "{\"type\": \"int\"}", "value_schema": "{\"type\":\"record\",\"name\":\"Student\",\"fields\":[{\"name\":\"studentId\",\"type\":\"int\"},{\"name\":\"studentName\",\"type\":\"string\"},{\"name\":\"height\",\"type\":\"double\"}]}", "records": [{"key":1,"value":{"studentId":1,"studentName":"Benny B","height":1.74}}]}' \
+        "http://localhost:8082/topics/students_new"
+
+OK
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+        -H "Accept: application/vnd.kafka.v2+json" \
+         --data '{ "key_schema": "{\"type\": \"int\"}", "value_schema": "{\"type\":\"record\",\"name\":\"Student\",\"fields\":[{\"name\":\"studentId\",\"type\":\"int\"},{\"name\":\"studentName\",\"type\":\"string\"},{\"name\":\"height\",\"type\":\"double\"},{\"name\":\"region\",\"type\":\"string\"}]}", "records": [{"key":1,"value":{"studentId":1,"studentName":"Jim A","height":1.74,"region":"EU"}}]}' \
+        "http://localhost:8082/topics/students_new"
+
+OK
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+        -H "Accept: application/vnd.kafka.v2+json" \
+         --data '{ "key_schema": "{\"type\": \"int\"}", "value_schema": "{\"type\":\"record\",\"name\":\"Student\",\"fields\":[{\"name\":\"studentId\",\"type\":\"int\"},{\"name\":\"studentName\",\"type\":\"string\"},{\"name\":\"height\",\"type\":\"double\"},{\"name\":\"region\",\"type\":\"string\",\"default\":\"EARTH\"}]}", "records": [{"key":2,"value":{"studentId":2,"studentName":"Jack B","height":1.94,"region":"US"}}]}' \
+        "http://localhost:8082/topics/students_new"
+
+OK
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+        -H "Accept: application/vnd.kafka.v2+json" \
+         --data '{ "key_schema": "{\"type\": \"int\"}", "value_schema": "{\"type\":\"record\",\"name\":\"Student\",\"fields\":[{\"name\":\"studentId\",\"type\":\"int\"},{\"name\":\"studentName\",\"type\":\"string\"},{\"name\":\"height\",\"type\":\"double\"},{\"name\":\"region\",\"type\":\"string\",\"default\":\"EARTH\"}]}", "records": [{"key":"3a-xy","value":{"studentId":"3a-xy","studentName":"Joe C","height":2.04,"region":"US"}}]}' \
+        "http://localhost:8082/topics/students_new"
+
+{"error_code":42203,"message":"Conversion of JSON to Avro failed: Failed to convert JSON to Avro: Expected int. Got VALUE_STRING"}
+
+
+
+
+
+
+# Produce a message using Avro embedded data, including the schema which will
+# be registered with schema registry and used to validate and serialize
+# before storing the data in Kafka
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+      -H "Accept: application/vnd.kafka.v2+json" \
+      --data '{"value_schema": "{\"type\": \"record\", \"name\": \"User\", \"fields\": [{\"name\": \"name\", \"type\": \"string\"}]}", "records": [{"value": {"name": "testUser"}}]}' \
+      "http://localhost:8082/topics/avrotest"
+
+# Expected output from preceding command:
+  {"offsets":[{"partition":0,"offset":0,"error_code":null,"error":null}],"key_schema_id":null,"value_schema_id":21}
+
+# Produce a message with Avro key and value.
+# Note that if you use Avro values you must also use Avro keys, but the schemas can differ
+
+curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
+      -H "Accept: application/vnd.kafka.v2+json" \
+      --data '{"key_schema": "{\"name\":\"user_id\"  ,\"type\": \"int\"   }", "value_schema": "{\"type\": \"record\", \"name\": \"User\", \"fields\": [{\"name\": \"name\", \"type\": \"string\"}]}", "records": [{"key" : 1 , "value": {"name": "testUser"}}]}' \
+      "http://localhost:8082/topics/avrokeytest2"
+
+# Expected output from preceding command:
+  {"offsets":[{"partition":0,"offset":0,"error_code":null,"error":null}],"key_schema_id":2,"value_schema_id":1}
+
+# Create a consumer for Avro data, starting at the beginning of the topic's
+# log and subscribe to a topic. Then consume some data from a topic, which is decoded, translated to
+# JSON, and included in the response. The schema used for deserialization is
+# fetched automatically from schema registry. Finally, clean up.
+curl -X POST  -H "Content-Type: application/vnd.kafka.v2+json" \
+      --data '{"name": "my_consumer_instance", "format": "avro", "auto.offset.reset": "earliest"}' \
+      http://localhost:8082/consumers/my_avro_consumer
+
+# Expected output from preceding command:
+  {"instance_id":"my_consumer_instance","base_uri":"http://localhost:8082/consumers/my_avro_consumer/instances/my_consumer_instance"}
+
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" --data '{"topics":["avrotest"]}' \
+      http://localhost:8082/consumers/my_avro_consumer/instances/my_consumer_instance/subscription
+# No content in response
+
+curl -X GET -H "Accept: application/vnd.kafka.avro.v2+json" \
+      http://localhost:8082/consumers/my_avro_consumer/instances/my_consumer_instance/records
+
+# Expected output from preceding command:
+  [{"key":null,"value":{"name":"testUser"},"partition":0,"offset":1,"topic":"avrotest"}]
+
+curl -X DELETE -H "Content-Type: application/vnd.kafka.v2+json" \
+      http://localhost:8082/consumers/my_avro_consumer/instances/my_consumer_instance
+# No content in response

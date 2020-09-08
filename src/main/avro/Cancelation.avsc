@@ -1,0 +1,11 @@
+{"namespace": "io.vf.examples.clients.basicavro",
+ "type": "record",
+ "name": "Cancelation",
+ "doc" : "original",
+ "fields": [
+     {"name": "id", "type": "string"},
+     {"name": "contract_id", "type": "string"}
+ ]
+}
+
+

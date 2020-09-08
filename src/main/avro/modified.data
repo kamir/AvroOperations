@@ -1,0 +1,26 @@
+{
+  "type" : "record",
+  "name" : "MMPojo",
+  "namespace" : "data",
+  "doc" : "Schema for data.MMPojo NEW HINT ADDED",
+  "fields" : [ {
+    "name" : "dateSent",
+    "type" : [ "null", "string" ],
+    "doc"  : "DOC ADDED"
+  }, {
+    "name" : "size",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "subject",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "nrOfReciepients",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "receiver",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "sender",
+    "type" : [ "null", "string" ]
+  } ]
+}

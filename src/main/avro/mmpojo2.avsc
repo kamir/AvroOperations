@@ -1,0 +1,47 @@
+{
+  "type": "record",
+  "namespace": "data_demo3",
+  "name": "MMPojo3",
+  "doc": "Schema for MMPojo3",
+  "fields": [
+    {
+      "name": "dateSent",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "nrOfReciepients",
+      "type": "int"
+    },
+    {
+      "name": "receiver",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "sender",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "size",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "subject",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}
