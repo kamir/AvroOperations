@@ -11,11 +11,11 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @SuppressWarnings("all")
-/** v2a */
+/** v2b */
 @org.apache.avro.specific.AvroGenerated
 public class Payment2 extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -4820324193091309805L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Payment2\",\"namespace\":\"io.confluent.examples.clients.basicavro\",\"doc\":\"v2a\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"amount\",\"type\":\"double\"},{\"name\":\"region\",\"type\":\"string\"},{\"name\":\"myenum\",\"type\":[\"null\",{\"type\":\"enum\",\"name\":\"units\",\"symbols\":[\"ns\",\"mus\",\"ms\",\"s\"]}]}]}");
+  private static final long serialVersionUID = -2816092790848995909L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Payment2\",\"namespace\":\"io.confluent.examples.clients.basicavro\",\"doc\":\"v2b\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"amount\",\"type\":\"double\"},{\"name\":\"region\",\"type\":\"string\",\"default\":\"OLD\"},{\"name\":\"myenum\",\"type\":[\"null\",{\"type\":\"enum\",\"name\":\"units\",\"symbols\":[\"ns\",\"mus\",\"ms\",\"s\",\"min\"]}]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();

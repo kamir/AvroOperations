@@ -1,0 +1,43 @@
+{
+  "type" : "record",
+  "name" : "DataEntityA1",
+  "namespace" : "packageA",
+  "doc" : "Schema for packageA.DataEntityA1",
+  "fields" : [ {
+    "name" : "b1",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "int"
+    } ]
+  }, {
+    "name" : "b2",
+    "type" : [ "null", "bytes" ]
+  }, {
+    "name" : "d1",
+    "type" : [ "null", "double" ]
+  }, {
+    "name" : "d2",
+    "type" : "double"
+  }, {
+    "name" : "i1",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "i2",
+    "type" : [ "null", "int" ]
+  }, {
+    "name" : "s1",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ]
+  }, {
+    "name" : "s2",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "x",
+    "type" : "int"
+  }, {
+    "name" : "y",
+    "type" : "int"
+  } ]
+}

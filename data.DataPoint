@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "DataPoint",
+  "namespace" : "data",
+  "doc" : "Schema for data.DataPoint",
+  "fields" : [ {
+    "name" : "tsSource",
+    "type" : [ "null", "long" ]
+  }, {
+    "name" : "value",
+    "type" : [ "null", "double" ]
+  } ]
+}

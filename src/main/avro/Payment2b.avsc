@@ -11,7 +11,7 @@
                 "type": ["null", {
                         "type": "enum",
                         "name": "units",
-                        "symbols": ["ns", "mus", "ms", "s", "min", "h", "d"]
+                        "symbols": ["ns", "mus", "ms", "s", "min"]
                     }
                 ]
       }

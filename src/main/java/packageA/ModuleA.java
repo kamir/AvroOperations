@@ -1,5 +1,7 @@
 package packageA;
 
+import data.DataPoint;
+
 import org.apache.avro.reflect.AvroDefault;
 import org.apache.avro.reflect.AvroMeta;
 import util.SchemaTool;
@@ -15,6 +17,10 @@ public class ModuleA {
 
         DataEntityA2 e2 = new DataEntityA2();
         st.persistSchema( e2.getClass() );
+
+        DataPoint dp = new DataPoint();
+        st.persistSchema( dp.getClass() );
+
 
     }
 
